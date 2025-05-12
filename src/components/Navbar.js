@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const topMenu = [
-  { name: "Soluções", href: "#solutions" },
-  { name: "Carreiras", href: "#careers" },
-  { name: "Blog", href: "#blog" },
+  { name: "Soluções", href: "/solutions", isPage: true },
+  { name: "Carreiras", href: "/careers", isPage: true },
+  { name: "Blog", href: "/blog", isPage: true },
   { name: "synthaicorp@proton.me", href: "mailto:synthaicorp@proton.me", isEmail: true },
 ];
 
 const mainMenu = [
-  { name: "Início", href: "#", active: true },
+  { name: "Início", href: "/", active: true, isPage: true },
   { name: "Sobre", href: "#about" },
   { name: "Serviços", href: "#services" },
   { name: "Portfólio", href: "#portfolio" },
@@ -26,14 +27,25 @@ const Navbar = () => {
         <div className="text-sm text-gray-500">Transformando empresas com tecnologia desde 2024</div>
         <div className="hidden md:flex items-center gap-6">
           {topMenu.map((item, idx) => (
-            <a
-              key={idx}
-              href={item.href}
-              className={`text-sm text-gray-500 hover:text-blue-600 transition-colors ${item.isEmail ? "flex items-center gap-1" : ""}`}
-            >
-              {item.isEmail && <span className="text-blue-600">✉</span>}
-              {item.name}
-            </a>
+            item.isPage ? (
+              <Link
+                key={idx}
+                to={item.href}
+                className={`text-sm text-gray-500 hover:text-blue-600 transition-colors ${item.isEmail ? "flex items-center gap-1" : ""}`}
+              >
+                {item.isEmail && <span className="text-blue-600">✉</span>}
+                {item.name}
+              </Link>
+            ) : (
+              <a
+                key={idx}
+                href={item.href}
+                className={`text-sm text-gray-500 hover:text-blue-600 transition-colors ${item.isEmail ? "flex items-center gap-1" : ""}`}
+              >
+                {item.isEmail && <span className="text-blue-600">✉</span>}
+                {item.name}
+              </a>
+            )
           ))}
         </div>
       </div>
@@ -41,9 +53,9 @@ const Navbar = () => {
       {/* Main Navigation */}
       <div className="flex justify-between items-center px-6 md:px-12 py-4">
         <div className="flex items-center">
-          <a href="#" className="block">
+          <Link to="/" className="block">
             <img src="/logo.png" alt="Synth Corp Logo" className="h-16" />
-          </a>
+          </Link>
         </div>
         
         {/* Mobile menu button */}
@@ -67,12 +79,21 @@ const Navbar = () => {
           <ul className="flex gap-8">
             {mainMenu.map((item, idx) => (
               <li key={idx}>
-                <a
-                  href={item.href}
-                  className={`font-medium hover:text-blue-600 transition-colors ${item.active ? 'text-blue-600' : 'text-gray-700'}`}
-                >
-                  {item.name}
-                </a>
+                {item.isPage ? (
+                  <Link
+                    to={item.href}
+                    className={`font-medium hover:text-blue-600 transition-colors ${item.active ? 'text-blue-600' : 'text-gray-700'}`}
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    className={`font-medium hover:text-blue-600 transition-colors ${item.active ? 'text-blue-600' : 'text-gray-700'}`}
+                  >
+                    {item.name}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
@@ -92,12 +113,22 @@ const Navbar = () => {
           <ul className="space-y-4">
             {mainMenu.map((item, idx) => (
               <li key={idx}>
-                <a
-                  href={item.href}
-                  className={`block font-medium hover:text-blue-600 transition-colors ${item.active ? 'text-blue-600' : 'text-gray-700'}`}
-                >
-                  {item.name}
-                </a>
+                {item.isPage ? (
+                  <Link
+                    to={item.href}
+                    className={`block font-medium hover:text-blue-600 transition-colors ${item.active ? 'text-blue-600' : 'text-gray-700'}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    className={`block font-medium hover:text-blue-600 transition-colors ${item.active ? 'text-blue-600' : 'text-gray-700'}`}
+                  >
+                    {item.name}
+                  </a>
+                )}
               </li>
             ))}
             <li className="pt-4 border-t border-gray-100">
